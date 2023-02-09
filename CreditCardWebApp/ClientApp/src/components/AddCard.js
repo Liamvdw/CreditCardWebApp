@@ -1,7 +1,6 @@
 ﻿import React, { useState, useEffect } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Popup from './Popup';
 import { Form, Button } from 'react-bootstrap';
 import '../../src/custom.css';
 
@@ -211,8 +210,7 @@ const AddCard = () => {
                 </div>
 
             </form>
-
-            {/*<Popup data={data} isPopup={isPopup} />*/}
+           
         </div>
 
     );

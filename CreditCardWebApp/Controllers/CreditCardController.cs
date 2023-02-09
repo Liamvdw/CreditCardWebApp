@@ -65,7 +65,7 @@ namespace CreditCardWebApp.Controllers
             try
             {
                 var args = new Dictionary<string, object>();                
-                DataTable dt = repository.Execute(QueryConstants.SelectAll, args);
+                DataTable dt = _repo.Execute(QueryConstants.SelectAll, args);
                 string jsonString = string.Empty;
                 var response = JsonConvert.SerializeObject(dt);
 
@@ -104,31 +104,46 @@ namespace CreditCardWebApp.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("Update/")]
-        public string Update([FromBody] CardDetails cardDetails)
+        [HttpPut]
+        [Route("Update/{creditCard}")]
+        public string Update(string creditCard)
         {
             try
             {
-                const string updateQuery = "UPDATE CreditCard SET cardHolder = @cardHolder, cardNumber = @cardNumber, cvv = @cvv, cardProvider = @cardProvider, fullName = @fullName, address = @address, province = @province, city = @city, email = @email, zipCode = @zipCode, updatedDate = @updatedDate WHERE cardNumber = @cardNumber";
+                CardDetails newCardDetails = new CardDetails()
+                {
+                    CardHolder = "Ronald Weasley",
+                    CardNumber = "4444444444444445",
+                    CardProvider = "American Express",
+                    Cvv = "226",
+                    ExpiryDate = new DateTime(2023, 06, 25),
+                    Address = "856 Karoo Park, Durbanville",
+                    City = "Cape Town",
+                    Email = "example@test.com",
+                    FullName = "Ronald Weasley",
+                    Province = "Western Cape",
+                    ZipCode = "5564",
+                    UpdatedDate = new DateTime()
+                };
+
+                string updateQuery = "UPDATE CreditCard SET cardHolder = @cardHolder, cardNumber = @cardNumber, cvv = @cvv, cardProvider = @cardProvider, fullName = @fullName, address = @address, province = @province, city = @city, email = @email, zipCode = @zipCode, updatedDate = @updatedDate WHERE cardNumber =" + creditCard;
 
                 var args = new Dictionary<string, object>
                 {
-                    {"@cardHolder", cardDetails.CardHolder},
-                    {"@cardNumber", cardDetails.CardNumber},
-                    {"@cvv", cardDetails.Cvv},
-                    {"@cardProvider", cardDetails.CardProvider},
-                    {"@expiryDate", cardDetails.ExpiryDate},
-                    {"@fullName", cardDetails.FullName},
-                    {"@address", cardDetails.Address},
-                    {"@province", cardDetails.Province},
-                    {"@city", cardDetails.City},
-                    {"@email", cardDetails.Email},
-                    {"@zipCode", cardDetails.ZipCode},
+                    {"@cardHolder", newCardDetails.CardHolder},
+                    {"@cardNumber", newCardDetails.CardNumber},
+                    {"@cvv", newCardDetails.Cvv},
+                    {"@cardProvider", newCardDetails.CardProvider},
+                    {"@expiryDate", newCardDetails.ExpiryDate},
+                    {"@fullName", newCardDetails.FullName},
+                    {"@address", newCardDetails.Address},
+                    {"@province", newCardDetails.Province},
+                    {"@city", newCardDetails.City},
+                    {"@email", newCardDetails.Email},
+                    {"@zipCode", newCardDetails.ZipCode},
                     {"@updatedDate", DateTime.Now}
                 };
                 _repo.ExecuteWrite(updateQuery, args);
-
 
             }
             catch (Exception ex)

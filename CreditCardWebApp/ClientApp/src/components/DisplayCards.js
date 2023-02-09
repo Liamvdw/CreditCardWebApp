@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
-/*import { CreditCardService } from '../services/CreditCardService';*/
+import { Button } from 'react-bootstrap';
 
 const DisplayCards = () => {
     const [cardDetails, setCardDetails] = useState([]);
@@ -9,8 +8,8 @@ const DisplayCards = () => {
         getAllCards();
     }, []);
 
-    const getAllCards = () => {        
-            fetch('api/creditcard/GetCards')
+    const getAllCards = () => {
+        fetch('api/creditcard/GetCards')
             .then((response) => response.json())
             .then((data) => {
                 let array = [];
@@ -26,25 +25,6 @@ const DisplayCards = () => {
             });
     }
 
-
-
-    //useEffect(() => {
-    //    fetch('api/creditcard/GetCards')
-    //        .then((response) => response.json())
-    //        .then((data) => {
-    //            let array = [];
-    //            data.forEach((item) => {
-    //                let date = new Date(item.expiryDate);
-    //                let month = date.getMonth() + 1;
-    //                let year = date.getFullYear();
-    //                date = month + "/" + year;
-    //                item.expiryDate = date;
-    //                array.push(item);
-    //            });
-    //            setCardDetails(array);
-    //        });
-    //}, []);
-
     const deleteCard = (cardNumber) => {
         fetch('api/creditcard/Delete/' + cardNumber, {
             method: 'DELETE',
@@ -52,12 +32,28 @@ const DisplayCards = () => {
         })
             .then((response) => response.text.toString())
             .then((data) => {
-                test();
+                alert('Deleted Successfully!');
+                getAllCards();
             })
             .catch((err) => {
                 console.log(err.message);
             });
     };
+
+    const updateCard = (cardNumber) => {
+        fetch('api/creditcard/Update/' + cardNumber, {
+            method: 'PUT',
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        })
+            .then((response) => response.text.toString())
+            .then((data) => {
+                alert('Updated Successfully!');
+                getAllCards();
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }
 
 
     return (
@@ -93,10 +89,7 @@ const DisplayCards = () => {
                             <td>{card.address}</td>
                             <td>{card.city}</td>
                             <td>{card.province}</td>
-                            <td>{card.zipCode}</td>
-                            <td>
-                                <Button onClick={() => deleteCard(card.cardNumber)} type="submit" variant="outline-success" size="lg">Delete</Button>
-                            </td>
+                            <td>{card.zipCode}</td>                               
                         </tr>
                     )}
                 </tbody>

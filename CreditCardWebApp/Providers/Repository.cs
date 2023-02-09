@@ -17,7 +17,7 @@ namespace CreditCardWebApp.Providers
 
         public void CreateDB()
         {
-            //System.IO.File.Delete(Path.Combine(@".\CreditCard.sqlite"));
+            
             if (!System.IO.File.Exists(@".\CreditCard.sqlite"))
             {
                 SQLiteConnection.CreateFile("CreditCard.sqlite");
@@ -26,11 +26,8 @@ namespace CreditCardWebApp.Providers
                 m_dbConnection.Open();
 
                 SQLiteCommand creditCardTable = new SQLiteCommand(QueryConstants.CreateTable, m_dbConnection);
-                //SQLiteCommand creditProviderTable = new SQLiteCommand(QueryConstants.CreateProviderTable, m_dbConnection);
-                
-                //creditProviderTable.ExecuteNonQuery();
-                creditCardTable.ExecuteNonQuery();
-                
+             
+                creditCardTable.ExecuteNonQuery();                
 
                 m_dbConnection.Close();
             }

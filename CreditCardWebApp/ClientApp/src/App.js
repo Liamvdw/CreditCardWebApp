@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import AddCard from '../src/components/AddCard.js';
 import DisplayCards from '../src/components/DisplayCards.js';
 import Navbar from '../src/components/NavBar.js';

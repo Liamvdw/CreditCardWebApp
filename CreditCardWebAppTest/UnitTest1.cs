@@ -68,7 +68,7 @@ namespace CreditCardWebAppTest
             var controller = new CreditCardController(logger, repository);           
 
             //act            
-            controller.Update(cardDetails);
+            controller.Update(cardDetails.CardNumber);
             var controller2 = new CreditCardController(logger, repository);
 
             var result = controller2.GetCards();
