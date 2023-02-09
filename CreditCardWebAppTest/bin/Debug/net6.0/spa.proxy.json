@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:44439",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "C:\\Users\\Admin\\source\\repos\\Projects\\CreditCardWebApp\\CreditCardWebApp\\ClientApp\\",
+"MaxTimeoutInSeconds": "120"
+}
+}
