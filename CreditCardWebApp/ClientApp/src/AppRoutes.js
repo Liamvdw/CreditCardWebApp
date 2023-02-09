@@ -1,5 +1,4 @@
 import { DisplayCards } from "./components/DisplayCards";
-import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 
 const AppRoutes = [
@@ -14,11 +13,7 @@ const AppRoutes = [
     {
         path: '/display-cards',
         element: <DisplayCards />
-    },
-    {
-        path: '/fetch-data',
-        element: <FetchData />
-    }
+    }    
 ];
 
 export default AppRoutes;

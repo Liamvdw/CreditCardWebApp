@@ -12,7 +12,7 @@ const AddCard = () => {
     const [expiryDate, setExpiryDate] = useState(new Date());
     const [fullName, setFullName] = useState('');
     const [address, setAddress] = useState('');
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState({});
     const [city, setCity] = useState('');
     const [province, setProvince] = useState('');
     const [zipCode, setZipCode] = useState('');
@@ -41,6 +41,26 @@ const AddCard = () => {
         setSelectedProvider(e.target.value);
     };
 
+    const validateEmail = (email) => {
+        isEmail(email);
+    };
+
+    const isEmail = (email) => {
+        const pattern = /[a-zA-Z0-9]+[\.]?([a-zA-Z0-9]+)?[\@][a-z]{3,9}[\.][a-z]{2,5}/g;
+        const result = pattern.test(email);
+        if (result === true) {
+            setEmail({
+                emailError: false,
+                email: email
+            });
+        } else {
+            setEmail({
+                emailError: true
+            });
+        }
+    };
+
+
     const resetFields = () => {
         setCardNumber('');
         setCardHolder('');
@@ -49,7 +69,7 @@ const AddCard = () => {
         setExpiryDate('');
         setFullName('');
         setAddress('');
-        setEmail('');
+        setEmail({ emailError: false, email: '' });
         setCity('');
         setProvince('');
         setZipCode('');
@@ -96,7 +116,7 @@ const AddCard = () => {
                     ExpiryDate: expiryDate,
                     FullName: fullName,
                     Address: address,
-                    Email: email,
+                    Email: email.email,
                     City: city,
                     Province: province,
                     ZipCode: zipCode,
@@ -106,10 +126,10 @@ const AddCard = () => {
                 headers: { 'Content-type': 'application/json; charset=UTF-8' },
             })
                 .then((response) => response.text.toString())
-                .then((data) => {                   
+                .then((data) => {
                     alert('Saved Successfully!');
                     resetFields();
-                    
+
                 })
                 .catch((err) => {
                     console.log(err.message);
@@ -132,7 +152,8 @@ const AddCard = () => {
                     <div className="col-4 mb-3">
                         <Form.Group controlId="cardHolder">
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="johnmdoe@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                            <Form.Control type="email" placeholder="johnmdoe@example.com" onChange={(e) => validateEmail(e.target.value)} required />
+                            {email.emailError ? <span style={{ color: "red" }}>Please Enter valid email address</span> : ''}
                         </Form.Group>
                     </div>
                     <div className="col-4 mb-3">
@@ -203,16 +224,11 @@ const AddCard = () => {
                         />
                     </Form.Group>
                 </div>
-
-
                 <div className="col-12 mb-3 text-center">
-                    <Button type="submit" variant="outline-success" size="lg">Submit Card</Button>
+                    <Button type="submit" variant="outline-success" size="lg">Add Card</Button>
                 </div>
-
             </form>
-           
         </div>
-
     );
 }
 
